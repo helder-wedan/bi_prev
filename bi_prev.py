@@ -372,7 +372,12 @@ tela_indicadores = html.Div(children=[
                             type="dot",
                             #children=html.Div(id="loading-output-1")
                             ),
-                        
+                       dcc.Loading(
+                            id="loading-2",
+                            type="dot",
+                            #children=html.Div(id="loading-output-2")
+                            ),
+                       
                    dbc.Row([ 
                    dbc.Col([
                        html.Div([
@@ -506,7 +511,7 @@ def update_cards(ano, plano):
         return [i for i in outputs]
 
 @app.callback(
-    [   
+    [   Output("loading-2", "children"),
         Output("solvencia_seca_graph",'figure'),
         Output("solvencia_liquida_graph",'figure'),
         Output("maturidade_atuarial_graph",'figure'),
@@ -533,7 +538,7 @@ def update_cards(ano, plano):
 def update_graphs(ano, plano):
     base_grafico = balancete_pivot_test[(balancete_pivot_test.PLANO == plano)].copy().sort_values(by='competencia')
 
-    lista_graficos=[]
+    lista_graficos=['']
 
     for col,ind in zip(colunas,colunas_indicadores):
         tickf = 's' if col in porcentagem else 'n'
@@ -545,7 +550,7 @@ def update_graphs(ano, plano):
         tickf,
         ))
 
-
+    
     return [i for i in lista_graficos]
     #
 
