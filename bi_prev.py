@@ -367,6 +367,11 @@ tela_indicadores = html.Div(children=[
 
                    dbc.Col([
                        html.Div([], id='tabela_provisoes'),
+                       dcc.Loading(
+                            id="loading-1",
+                            type="dot",
+                            #children=html.Div(id="loading-output-1")
+                            ),
                         
                    dbc.Row([ 
                    dbc.Col([
@@ -493,7 +498,8 @@ def update_cards(ano, plano):
         for i in valores[valores.columns[:6]]:
             valores[i] = round(valores[i] + 0.0,4).astype(str).str.replace('.',',',regex=False)
             valores[i] = valores[i].str.replace(r'[-+]?\binf\b', '',regex=True)
-
+        
+        
         return [i for i in valores.values[0]]
         #return [round(i,4) for i in valores.values[0]]
 
@@ -542,7 +548,10 @@ def update_graphs(ano, plano):
     #
 
 @app.callback(
-    Output('tabela_provisoes','children'),    
+    [
+        Output("loading-1", "children"),
+        Output('tabela_provisoes','children')
+    ],    
     [
         Input('select-ano', 'value'),
         Input('select-plano', 'value'),
@@ -619,7 +628,7 @@ def update_table(mes,plano):
     fill_width=False,
 )
 
-    return tabela_dash
+    return '',tabela_dash
 
 # Update page =========================
 
