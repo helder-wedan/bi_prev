@@ -374,7 +374,7 @@ tela_indicadores = html.Div(children=[
                             ),
                        dcc.Loading(
                             id="loading-2",
-                            type="dot",
+                            type="graph",
                             #children=html.Div(id="loading-output-2")
                             ),
                        
