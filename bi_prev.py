@@ -101,7 +101,7 @@ ipca.VALDATA = pd.to_datetime(ipca.VALDATA.str[:10])
 
 # =======================
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
-#server = app.server
+server = app.server
 # ========================
 
 def variacao(coluna,mes,plano):
