@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 import datetime as dt
 from babel.numbers import format_currency
 
-path = r'Z:\Clientes\WPC\PROJETO BI PREVIDENCIA\PROVISÕES MATEMÁTICAS'
+path = 'database' #r'Z:\Clientes\WPC\PROJETO BI PREVIDENCIA\PROVISÕES MATEMÁTICAS'
 balancete_pivot_test = pd.read_csv(path+'/balancete_pivot.csv',encoding='latin-1')
 balancete_pivot_test.competencia = pd.to_datetime(
     balancete_pivot_test.competencia, dayfirst=False, errors="coerce", format="%Y-%m-%d"
