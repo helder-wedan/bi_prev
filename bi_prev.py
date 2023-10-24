@@ -450,7 +450,7 @@ app.layout = html.Div(
 # CALLBACKS =====
 
 @app.callback(
-    [   
+    [   Output("loading-1", "children"),
         Output("solvencia_seca", 'children'),
         Output("solvencia_gerencial", 'children'),
         Output("solvencia_liquida", 'children'),
@@ -499,9 +499,11 @@ def update_cards(ano, plano):
             valores[i] = round(valores[i] + 0.0,4).astype(str).str.replace('.',',',regex=False)
             valores[i] = valores[i].str.replace(r'[-+]?\binf\b', '',regex=True)
         
-        
-        return [i for i in valores.values[0]]
-        #return [round(i,4) for i in valores.values[0]]
+        outputs = []
+        outputs.append('')
+        [outputs.append(i)for i in valores.values[0]]
+    
+        return [i for i in outputs]
 
 @app.callback(
     [   
@@ -548,10 +550,9 @@ def update_graphs(ano, plano):
     #
 
 @app.callback(
-    [
-        Output("loading-1", "children"),
+    
         Output('tabela_provisoes','children')
-    ],    
+    ,    
     [
         Input('select-ano', 'value'),
         Input('select-plano', 'value'),
@@ -628,7 +629,7 @@ def update_table(mes,plano):
     fill_width=False,
 )
 
-    return '',tabela_dash
+    return tabela_dash
 
 # Update page =========================
 
