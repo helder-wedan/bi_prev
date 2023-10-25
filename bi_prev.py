@@ -80,7 +80,7 @@ colunas_indicadores = [
     'Exigível Operacional',
     'Exigível Contingencial',
     'Patrimônio Social',
-    'Patrimônio Cobertura',
+    'Patrimônio Líq. de Cobertura',
     'Provisões Matemáticas',
     'Resultado',
 ]
@@ -133,11 +133,11 @@ def grafico(visualizacao,col,title,tickformat = 'n'):
         width=560,
         margin=dict(l=10, r=10, b=10, t=60),
         title={
-            "text": title,
+            "text":'<b>'+title+'</b>',
             "font": dict(size=17),
             "y": 0.9,
-            'x':1,
-            'xanchor': 'right',
+            'x': 0.5,
+            'xanchor': 'left',
             "yanchor": "top",
         },
         xaxis=dict(
@@ -170,7 +170,7 @@ def grafico(visualizacao,col,title,tickformat = 'n'):
     if tickformat == 's':
         fig1.update_layout(yaxis=dict(tickformat = 'p'))
 
-    fig1.update_yaxes(mirror=True, showline=True, linewidth=2, showspikes=True,fixedrange=False) #rangemode="tozero",
+    fig1.update_yaxes(mirror=True, showline=True, linewidth=2, showspikes=True,fixedrange=False) #rangemode="tozero"
     fig1.update_xaxes(mirror=True, showline=True, linewidth=2)
 
     return fig1
@@ -181,10 +181,10 @@ def card(name,id):
                                     html.H6(#style={"color": "#5d8aa7"}, 
                                             id=id),
                                     ])
-                                ], color="#003e4c", outline=True,inverse=True, style={"margin-top": "20px",#"margin-left": "10px",
+                                ], id=id+"_card", color="#003e4c", outline=True,inverse=True, style={"margin-top": "20px",#"margin-left": "10px",
                                         "box-shadow": "0 4px 4px 0 rgba(0, 0, 0, 0.15), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
                                         #"color": "#FFFFFF"
-                                        })
+                                        },)
     return cardbody
 
 def header():
@@ -331,23 +331,108 @@ tela_indicadores = html.Div(children=[
             dbc.Row([
                 dbc.Col([
                         dbc.Row([
-                            card("Solvência Seca","solvencia_seca"),
+                            card("Solvência Seca","solvencia_seca"),                
+                            dbc.Tooltip(
+                                "(Patromônio de Cobertura + Fundos Previdenciais) / Provisões Matemáticas. Insolvente se < 1.",
+                                target="solvencia_seca"+"_card",
+                                ),
+
                             card("Solvência Gerencial","solvencia_gerencial"),
+                            dbc.Tooltip(
+                                "Patromônio de Cobertura / Provisões Matemáticas. Insolvente se < 1.",
+                                target="solvencia_gerencial"+"_card",
+                                ),
+
                             card("Solvência Líquida","solvencia_liquida"),
+                            dbc.Tooltip(
+                                "(Patromônio de Cobertura + Provisões a Constituir) / Provisões Matemáticas. Insolvente se < 1.",
+                                target="solvencia_liquida"+"_card",
+                                ),
+
                             card("Resultado Operacional","resultado_operacional"),
+                            dbc.Tooltip(
+                                "Adições / Deduções. Maduro se < 1.",
+                                target="resultado_operacional"+"_card",
+                                ),
+
                             card("Maturidade Atuarial",'maturiade_atuarial'),
+                            dbc.Tooltip(
+                                "Benefícios a Conceder / Benefícios Concedidos. Maduro se < 1.",
+                                target="maturiade_atuarial"+"_card",
+                                ),
+
                             card("Solvência Financeira",'solvencia_financeira'),
+                            dbc.Tooltip(
+                                "(Adições + Fluxo dos Investimentos) / Deduções. Insolvente se < 1.",
+                                target="solvencia_financeira"+"_card",
+                                ),
+
                             card("Risco Legal",'risco_legal'),
+                            dbc.Tooltip(
+                                "Exigível Contingencial / Patrimônio Social",
+                                target="risco_legal"+"_card",
+                                ),
+
                             card("Provisões em CD",'provisoes_cd'),
+                            dbc.Tooltip(
+                                "(Benefícios Concedidos em CD + Benefícios a Conceder em CD) / Provisões Matemáticas. CD = Contribuição Definida",
+                                target="provisoes_cd"+"_card",
+                                ),
+
                             card("Passivo a Integralizar",'passivo_integralizar'),
+                            dbc.Tooltip(
+                                "Provisões a Constituir / Provisões Matemáticas.",
+                                target="passivo_integralizar"+"_card",
+                                ),
+
                             card("Provisões em BD",'provisoes_bd'),
+                            dbc.Tooltip(
+                                "1 - (Provisões em CD + Passivo a Integralizar)",
+                                target="provisoes_bd"+"_card",
+                                ),
+
                             card("Ativo Total",'ativo'),
+                            dbc.Tooltip(
+                                "Conta '1' do balancete",
+                                target="ativo"+"_card",
+                                ),
+
                             card("Exigível Operacional",'exig_operacional'),
+                            dbc.Tooltip(
+                                "Conta '2.01' do balancete",
+                                target="exig_operacional"+"_card",
+                                ),                            
+                            
                             card("Exigível Contingencial",'exig_contingencial'),
+                            dbc.Tooltip(
+                                "Conta '2.02' do balancete",
+                                target="exig_contingencial"+"_card",
+                                ),                            
+                            
                             card("Patrimônio Social",'patrimonio_social'),
+                            dbc.Tooltip(
+                                "Conta '2.03' do balancete",
+                                target="patrimonio_social"+"_card",
+                                ),                            
+                            
                             card("Patrimônio Líquido de Cobertura",'plc'),
+                            dbc.Tooltip(
+                                "Conta '2.03.01' do balancete",
+                                target="plc"+"_card",
+                                ),                            
+
                             card("Provisões Matemáticas",'provisoes'),
+                            dbc.Tooltip(
+                                "Conta '2.03.01.01' do balancete",
+                                target="provisoes"+"_card",
+                                ),
+
                             card("Resultado",'resultado'),
+                            dbc.Tooltip(
+                                "Patromônio de Cobertura - Provisões Matemáticas. Superávit se > 0. Equilíbrio se = 0. Déficit se < 0.",
+                                target="resultado"+"_card",
+                                ),
+
                         ],style={"margin-left": "25px",},),
                         ],width=2),
 
