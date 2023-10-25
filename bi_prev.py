@@ -170,7 +170,7 @@ def grafico(visualizacao,col,title,tickformat = 'n'):
     if tickformat == 's':
         fig1.update_layout(yaxis=dict(tickformat = 'p'))
 
-    fig1.update_yaxes(mirror=True, showline=True, linewidth=2, rangemode="tozero",showspikes=True,fixedrange=False)
+    fig1.update_yaxes(mirror=True, showline=True, linewidth=2, showspikes=True,fixedrange=False) #rangemode="tozero",
     fig1.update_xaxes(mirror=True, showline=True, linewidth=2)
 
     return fig1
