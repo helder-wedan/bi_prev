@@ -131,14 +131,14 @@ def grafico(visualizacao,col,title,tickformat = 'n'):
     fig1.update_layout(
         height=360,
         width=560,
-        margin=dict(l=5, r=5, b=5, t=5),
+        margin=dict(l=10, r=10, b=10, t=60),
         title={
             "text": title,
             "font": dict(size=17),
-#            "y": 0.8,
+            "y": 0.9,
             'x':1,
             'xanchor': 'right',
-#            "yanchor": "top",
+            "yanchor": "top",
         },
         legend=dict(
             yanchor="bottom", y=-0.25, xanchor="right", x=0.85, orientation="h"
