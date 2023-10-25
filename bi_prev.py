@@ -333,19 +333,19 @@ tela_indicadores = html.Div(children=[
                         dbc.Row([
                             card("Solvência Seca","solvencia_seca"),                
                             dbc.Tooltip(
-                                "(Patromônio de Cobertura + Fundos Previdenciais) / Provisões Matemáticas. Insolvente se < 1.",
+                                "(Patrimônio de Cobertura + Fundos Previdenciais) / Provisões Matemáticas. Insolvente se < 1.",
                                 target="solvencia_seca"+"_card",
                                 ),
 
                             card("Solvência Gerencial","solvencia_gerencial"),
                             dbc.Tooltip(
-                                "Patromônio de Cobertura / Provisões Matemáticas. Insolvente se < 1.",
+                                "Patrimônio de Cobertura / Provisões Matemáticas. Insolvente se < 1.",
                                 target="solvencia_gerencial"+"_card",
                                 ),
 
                             card("Solvência Líquida","solvencia_liquida"),
                             dbc.Tooltip(
-                                "(Patromônio de Cobertura + Provisões a Constituir) / Provisões Matemáticas. Insolvente se < 1.",
+                                "(Patrimônio de Cobertura + Provisões a Constituir) / Provisões Matemáticas. Insolvente se < 1.",
                                 target="solvencia_liquida"+"_card",
                                 ),
 
@@ -429,7 +429,7 @@ tela_indicadores = html.Div(children=[
 
                             card("Resultado",'resultado'),
                             dbc.Tooltip(
-                                "Patromônio de Cobertura - Provisões Matemáticas. Superávit se > 0. Equilíbrio se = 0. Déficit se < 0.",
+                                "Patrimônio de Cobertura - Provisões Matemáticas. Superávit se > 0. Equilíbrio se = 0. Déficit se < 0.",
                                 target="resultado"+"_card",
                                 ),
 
