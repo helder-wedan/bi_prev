@@ -12,6 +12,11 @@ import datetime as dt
 from babel.numbers import format_currency
 
 path = 'database' #r'Z:\Clientes\WPC\PROJETO BI PREVIDENCIA\PROVISÕES MATEMÁTICAS'
+# =======================
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
+server = app.server
+# ========================
+
 balancete_pivot_test = pd.read_csv(path+'/balancete_pivot.csv',encoding='latin-1')
 balancete_pivot_test.competencia = pd.to_datetime(
     balancete_pivot_test.competencia, dayfirst=False, errors="coerce", format="%Y-%m-%d"
@@ -99,11 +104,6 @@ porcentagem = [
 ipca = pd.json_normalize(requests.get("http://ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='PRECOS12_IPCAG12')").json()['value'])
 ipca.VALDATA = pd.to_datetime(ipca.VALDATA.str[:10])
 
-# =======================
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
-server = app.server
-# ========================
-
 def variacao(coluna,mes,plano):
     mes_anterior = pd.to_datetime(mes) - relativedelta(months = 1)
     variacao = balancete_pivot_test[(balancete_pivot_test.PLANO == plano)&(balancete_pivot_test.competencia == mes)][coluna].values / balancete_pivot_test[(balancete_pivot_test.PLANO == plano)&(balancete_pivot_test.competencia == mes_anterior)][coluna].values - 1
@@ -140,10 +140,6 @@ def grafico(visualizacao,col,title,tickformat = 'n'):
             'xanchor': 'right',
             "yanchor": "top",
         },
-        legend=dict(
-            yanchor="bottom", y=-0.25, xanchor="right", x=0.85, orientation="h"
-        ),
-
         xaxis=dict(
             rangeselector=dict(
                 buttons=list([
@@ -169,18 +165,12 @@ def grafico(visualizacao,col,title,tickformat = 'n'):
             ),
             type="date"
         ),
-
-        yaxis=dict(
-            side="left",
-#            range=[0,max(y) * 1.3],
-            #autorange=True,
-        ),
     )
 
     if tickformat == 's':
         fig1.update_layout(yaxis=dict(tickformat = 'p'))
 
-    fig1.update_yaxes(mirror=True, showline=True, linewidth=2, rangemode="tozero",showspikes=True,)
+    fig1.update_yaxes(mirror=True, showline=True, linewidth=2, rangemode="tozero",showspikes=True,fixedrange=False)
     fig1.update_xaxes(mirror=True, showline=True, linewidth=2)
 
     return fig1
@@ -267,11 +257,7 @@ def header():
     return header_geral
 
 tela_indicadores = html.Div(children=[
-        dbc.Row([
             header(),
-        ]),
-
-            html.Div([
         dbc.Row([
                 dbc.Col([
                     html.H5(
@@ -363,81 +349,53 @@ tela_indicadores = html.Div(children=[
                             card("Provisões Matemáticas",'provisoes'),
                             card("Resultado",'resultado'),
                         ],style={"margin-left": "25px",},),
-                        ],md=2),
+                        ],width=2),
 
                    dbc.Col([
                        html.Div([], id='tabela_provisoes'),
                        dcc.Loading(
                             id="loading-1",
                             type="dot",
-                            #children=html.Div(id="loading-output-1")
                             ),
                        dcc.Loading(
                             id="loading-2",
                             type="dot",
-                            #children=html.Div(id="loading-output-2")
-                            ),
-                       
-                   dbc.Row([ 
-                   dbc.Col([
-                       html.Div([
-                       dcc.Graph(id="solvencia_seca_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),
-                       dcc.Graph(id="solvencia_liquida_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),
-                       dcc.Graph(id="maturidade_atuarial_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),
-                       dcc.Graph(id="risco_legal_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),
-                       dcc.Graph(id="passivo_integralizar_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-                       dcc.Graph(id="ativo_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),
-                       dcc.Graph(id="ex_cont_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),
-                       dcc.Graph(id="plc_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),                                                                                                                                                                                                                  
-#                       dcc.Graph(id="resultado_graph",
-#                          style={"margin-top": "50px",
-#                                "margin-left": "15px",},),
-                       ],"One of two columns"),
-                   ],#md=5, 
-                   align="start"),
-
-                       dbc.Col([
-                           html.Div([
-                       dcc.Graph(id="solvencia_gerencial_graph",
-                          style={"margin-top": "50px"},),
-                       dcc.Graph(id="resultado_operacional_graph",
-                          style={"margin-top": "50px"},),
-                       dcc.Graph(id="solvencia_financeira_graph",
-                          style={"margin-top": "50px"},),
-                       dcc.Graph(id="provisoes_cd_graph",
-                          style={"margin-top": "50px"},),
-                       dcc.Graph(id="provisoes_bd_graph_graph",
-                          style={"margin-top": "50px"},),
-                        dcc.Graph(id="ex_opera_graph",
-                          style={"margin-top": "30px"},),
-                       dcc.Graph(id="patrimonio_social_graph",
-                          style={"margin-top": "50px"},),
-                       dcc.Graph(id="provisoes_graph",
-                          style={"margin-top": "50px"},),
-                        dcc.Graph(id="resultado_graph",
-                          style={"margin-top": "50px",
-                                "margin-left": "0px",},),
-
-                       ],"One of two columns"),
-                   ],#md=5, 
-                   align="end"),
-                ]),
+                            ),                        
+                 dbc.Row([
+                    dbc.Col([html.Div([dcc.Graph(id="solvencia_seca_graph")],"One of four columns")], align="start"),
+                    dbc.Col([html.Div([dcc.Graph(id="solvencia_liquida_graph")],"One of four columns")],align="end"),
+                        ]),
+                dbc.Row([
+                      dbc.Col([html.Div([dcc.Graph(id="maturidade_atuarial_graph"),],"One of two columns")], align="start"),
+                      dbc.Col([html.Div([dcc.Graph(id="risco_legal_graph"),],"One of two columns")], align="end"),
+                      ]),
+                dbc.Row([
+                      dbc.Col([html.Div([dcc.Graph(id="passivo_integralizar_graph"),],"One of two columns")], align="start"),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                      dbc.Col([html.Div([dcc.Graph(id="ativo_graph"),],"One of two columns")], align="end"),
+                      ]),
+                dbc.Row([
+                      dbc.Col([html.Div([dcc.Graph(id="ex_cont_graph"),],"One of two columns")], align="start"),
+                      dbc.Col([html.Div([dcc.Graph(id="plc_graph"),],"One of two columns")], align="end"),
+                      ]),
+                dbc.Row([
+                      dbc.Col([html.Div([dcc.Graph(id="solvencia_gerencial_graph"),],"One of two columns")], align="start"),
+                      dbc.Col([html.Div([dcc.Graph(id="resultado_operacional_graph"),],"One of two columns")], align="end"),
+                      ]),
+                dbc.Row([
+                      dbc.Col([html.Div([dcc.Graph(id="solvencia_financeira_graph"),],"One of two columns")], align="start"),
+                      dbc.Col([html.Div([dcc.Graph(id="provisoes_cd_graph"),],"One of two columns")], align="end"),
+                      ]),
+                dbc.Row([
+                      dbc.Col([html.Div([dcc.Graph(id="provisoes_bd_graph_graph"),],"One of two columns")], align="start"),
+                      dbc.Col([html.Div([dcc.Graph(id="ex_opera_graph"),],"One of two columns")], align="end"),
+                      ]),
+                dbc.Row([
+                      dbc.Col([html.Div([dcc.Graph(id="patrimonio_social_graph"),],"One of two columns")], align="start"),
+                      dbc.Col([html.Div([dcc.Graph(id="provisoes_graph"),],"One of two columns")], align="end"),
+                      ]),
+                dbc.Row([
+                      dbc.Col([html.Div([dcc.Graph(id="resultado_graph"),],"One of two columns")], align="start"),
+                      ]),
                 
                 ],style={"margin-left": "0px",
                          "margin-top": "15px",}, 
@@ -445,12 +403,11 @@ tela_indicadores = html.Div(children=[
                          ),
 
                         ]),
-                        
-                        ]),
                         ])
 
 app.layout = html.Div(
-    [dcc.Location(id="url", refresh=False), html.Div(id="page-content")]
+    [dcc.Location(id="url", refresh=False), 
+     html.Div(id="page-content")]
 )
 # CALLBACKS =====
 
@@ -550,7 +507,7 @@ def update_graphs(ano, plano):
         tickf,
         ))
 
-    
+
     return [i for i in lista_graficos]
     #
 
@@ -640,7 +597,7 @@ def update_table(mes,plano):
 
 @app.callback(
     dash.dependencies.Output("page-content", "children"),
-    [dash.dependencies.Input("url", "pathname")],
+    dash.dependencies.Input("url", "pathname"),
 )
 def display_page(pathname):
     if (
