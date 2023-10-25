@@ -70,7 +70,7 @@ colunas_indicadores = [
     'Solvência Gerencial',
     'Solvência Líquida',
     'Resultado Operacional',
-    'Maturiade Atuarial',
+    'Maturidade Atuarial',
     'Solvência Financeira',
     'Risco Legal',
     'Provisões CD',
