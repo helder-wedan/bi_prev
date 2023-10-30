@@ -333,19 +333,22 @@ tela_indicadores = html.Div(children=[
                         dbc.Row([
                             card("Solvência Seca","solvencia_seca"),                
                             dbc.Tooltip(
-                                "(Patrimônio de Cobertura + Fundos Previdenciais) / Provisões Matemáticas. Insolvente se < 1.",
+                                "(Patrimônio de Cobertura + Fundos Previdenciais) / Provisões Matemáticas." +
+                                " Quando maior do que 1, tem-se que o plano é atuarial e economicamente solvente, com parcela do Patrimônio Social equivalente ao Fundo Previdencial constituído para cobertura de riscos.",
                                 target="solvencia_seca"+"_card",
                                 ),
 
                             card("Solvência Gerencial","solvencia_gerencial"),
                             dbc.Tooltip(
-                                "Patrimônio de Cobertura / Provisões Matemáticas. Insolvente se < 1.",
+                                "Patrimônio de Cobertura / Provisões Matemáticas."+
+                                 ' Quando é maior do que 1, tem-se que o plano é atuarial e economicamente solvente.',
                                 target="solvencia_gerencial"+"_card",
                                 ),
 
                             card("Solvência Líquida","solvencia_liquida"),
                             dbc.Tooltip(
-                                "(Patrimônio de Cobertura + Provisões a Constituir) / Provisões Matemáticas. Insolvente se < 1.",
+                                "(Patrimônio de Cobertura + Provisões a Constituir) / Provisões Matemáticas."+
+                                ' Quando é maior do que 1, tem-se que o plano possui solvência líquida, atuarial e economicamente, isto é, as obrigações estão devidamente integralizadas.',
                                 target="solvencia_liquida"+"_card",
                                 ),
 
@@ -357,7 +360,7 @@ tela_indicadores = html.Div(children=[
 
                             card("Maturidade Atuarial",'maturiade_atuarial'),
                             dbc.Tooltip(
-                                "Benefícios a Conceder / Benefícios Concedidos. Maduro se < 1.",
+                                "Benefícios a Conceder / Benefícios Concedidos. Quando é menor do que 1, tem-se que o plano vai adquirido maturidade atuarial.",
                                 target="maturiade_atuarial"+"_card",
                                 ),
 
