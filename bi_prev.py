@@ -161,7 +161,7 @@ def grafico(visualizacao,col,title,tickformat = 'n'):
                 ])
             ),
             rangeslider=dict(
-                visible=True
+                visible=False
             ),
             type="date"
         ),
